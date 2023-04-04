@@ -7,7 +7,7 @@ import styles from '../styles/home.module.scss'
 
 import techsImage from '../../public/images/techs.svg'
 
-import { getPrismiClient } from '@/services/prismic'
+import { getPrismicClient } from '@/services/prismic'
 import Prismic from '@prismicio/client'
 import { RichText } from 'prismic-dom'
 
@@ -91,7 +91,7 @@ export default function Home({ content }: ContentProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const prismic = getPrismiClient()
+  const prismic = getPrismicClient()
 
   const response = await prismic.query([
     Prismic.predicates.at('document.type', 'home'),

@@ -1,6 +1,6 @@
 import Prismic from '@prismicio/client'
 
-export function getPrismiClient(req?: unknown) {
+export function getPrismicClient(req?: unknown) {
   const prismic = Prismic.client(
     'https://sujeitonext20.cdn.prismic.io/api/v2',
     {
