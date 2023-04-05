@@ -20,7 +20,7 @@ import { RichText } from 'prismic-dom'
 import { useState } from 'react'
 
 type Post = {
-  slug: string
+  slug: string | undefined
   title: string
   cover: string
   description: string
@@ -70,10 +70,11 @@ export default function Posts({
         slug: post.uid,
         title: RichText.asText(post.data.title),
         description:
-          post.data.description.find((content) => content.type === 'paragraph')
-            ?.text ?? '',
+          post.data.description.find(
+            (content: any) => content.type === 'paragraph'
+          )?.text ?? '',
         cover: post.data.cover.url,
-        updatedAt: new Date(post.last_publication_date).toLocaleDateString(
+        updatedAt: new Date(post.data.last_publication_date).toLocaleDateString(
           'pt-BR',
           {
             day: '2-digit',
@@ -159,10 +160,11 @@ export const getStaticProps: GetStaticProps = async () => {
       slug: post.uid,
       title: RichText.asText(post.data.title),
       description:
-        post.data.description.find((content) => content.type === 'paragraph')
-          ?.text ?? '',
+        post.data.description.find(
+          (content: any) => content.type === 'paragraph'
+        )?.text ?? '',
       cover: post.data.cover.url,
-      updatedAt: new Date(post.last_publication_date).toLocaleDateString(
+      updatedAt: new Date(post.data.last_publication_date).toLocaleDateString(
         'pt-BR',
         {
           day: '2-digit',

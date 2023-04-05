@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { GetServerSideProps } from 'next'
+import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import styles from './post.module.scss'
 
 import { getPrismicClient } from '../../services/prismic'
@@ -45,13 +45,12 @@ export default function Post({ post }: PostProps) {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({
-  req,
-  params,
-}) => {
-  const { slug } = params
+export const getServerSideProps: GetServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  const { slug } = context.query
 
-  const prismic = getPrismicClient(req)
+  const prismic = getPrismicClient(context.req)
 
   const response = await prismic.getByUID('post', String(slug), {})
 
@@ -69,7 +68,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     title: RichText.asText(response.data.title),
     description: RichText.asHtml(response.data.description),
     cover: response.data.cover.url,
-    updatedAt: new Date(response.last_publication_date).toLocaleDateString(
+    updatedAt: new Date(response.data.last_publication_date).toLocaleDateString(
       'pt-BR',
       {
         day: '2-digit',
@@ -79,7 +78,6 @@ export const getServerSideProps: GetServerSideProps = async ({
     ),
   }
 
-  console.log(slug)
   return {
     props: { post },
   }
